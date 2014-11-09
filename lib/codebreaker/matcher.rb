@@ -15,11 +15,11 @@ module Codebreaker
 
     private
       def exact_match?(index)
-        @game_code[index] == @guess_code[index]
+        (@game_code.length > 0) ? @game_code[index] == @guess_code[index] : false
       end
 
       def number_match?(index)
-        !exact_match?(index) && @game_code.include?(@guess_code[index])
+        (@game_code.length > 0) ? (!exact_match?(index) && @game_code.include?(@guess_code[index])) : false
       end
   end
 end

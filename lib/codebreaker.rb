@@ -1,4 +1,5 @@
-require "codebreaker/version"
+require 'yaml'
+require 'codebreaker/version'
 require 'codebreaker/matcher'
 require 'codebreaker/game'
 
