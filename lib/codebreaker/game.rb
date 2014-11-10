@@ -23,6 +23,7 @@ module Codebreaker
       elsif @max_attempts > 0 && @used_attempts >= @max_attempts
         @is_lost = true #'You have lost...'
       end
+      return guess_result
     end
 
     def won? # tested
@@ -34,10 +35,14 @@ module Codebreaker
     end
 
     def hint # tested
-      if @hint.nil?
+      if !hint_is_used
         @hint = rand(0..3)
       end
       (0..3).collect{|i| (i==@hint ? @secret_code[i] : '*')}.join
+    end
+
+    def hint_is_used
+      !@hint.nil?
     end
 
     def restart(max_attempts = 0) # tested
@@ -73,7 +78,8 @@ module Codebreaker
       end
 
       def get_data_dir
-        data_dir = Gem::Specification.find_by_name(self.class.to_s.split('::').first.downcase).gem_dir + '/data'
+        #data_dir = Gem::Specification.find_by_name(self.class.to_s.split('::').first.downcase).gem_dir + '/data'
+        data_dir = File.expand_path('../../../data', __FILE__)
         Dir.mkdir(data_dir) unless File.directory?(data_dir)
         return data_dir
       end

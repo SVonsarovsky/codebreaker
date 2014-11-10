@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'codebreaker'
+
+class ConsoleCodebreaker
+  def start
+    puts 'Enter number of attempts:'
+    gets
+  end
+  def game_play
+    @game = Codebreaker::Game.new(start.to_i)
+    @game.start
+    loop do
+      puts 'Enter your guess:'
+      guess_result = @game.play(gets)
+      if (@game.won?)
+        puts 'You have won!'
+        break
+      elsif (@game.lost?)
+        puts 'You have lost :('
+        break
+      else
+        guess_result = 'Your result after this attempt is ' + guess_result
+        if (@game.hint_is_used)
+          puts  guess_result
+        else
+          puts  guess_result + '. Would you like a hint (y/n)?'
+          if (gets[0] == 'y')
+            puts @game.hint
+          end
+        end
+      end
+      puts 'Would you like to continue (y/n) or restart (r) game?'
+      case gets[0]
+        when 'n'
+          break
+        when 'r'
+          @game.restart(start.to_i)
+          puts 'Game is restarted.'
+      end
+    end
+    puts 'Would you like to save your game (y/n)?'
+    if (gets[0] == 'y')
+      @game.save
+      puts 'Game is saved.'
+    end
+  end
+end
+
+example = ConsoleCodebreaker.new
+example.game_play

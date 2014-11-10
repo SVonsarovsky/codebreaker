@@ -49,7 +49,7 @@ module Codebreaker
           '1324'=>'++--',
           '1254'=>'+++',
           '1234'=>'++++',
-          #'1554'=>'+++-', # impossible situation
+          '1224'=>'+++-',
       }.each do |guess_code, expected_result|
         it "gets result match '#{expected_result}'" do
           secret_code = game.instance_variable_get(:@secret_code)

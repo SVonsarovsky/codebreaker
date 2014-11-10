@@ -1,4 +1,5 @@
 require 'yaml'
+require 'digest'
 require 'codebreaker/version'
 require 'codebreaker/matcher'
 require 'codebreaker/game'
