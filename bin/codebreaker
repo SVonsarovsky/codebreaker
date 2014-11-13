@@ -22,7 +22,7 @@ class ConsoleCodebreaker
         break
       else
         guess_result = 'Your result after this attempt is ' + guess_result
-        if (@game.hint_is_used)
+        if (@game.hint_used?)
           puts  guess_result
         else
           puts  guess_result + '. Would you like a hint (y/n)?'

@@ -4,48 +4,53 @@ module Codebreaker
     def initialize(max_attempts = 0)
       @secret_code = ''
       reset(max_attempts)
+      @test_environment = false
     end
 
-    def start # tested
+    def set_test_environment
+      @test_environment = true
+    end
+
+    def start
       generate_code
     end
 
-    def guess(guess_code) # tested
+    def guess(guess_code)
       matcher = Matcher.new(@secret_code, guess_code)
       ''+('+'*matcher.get_exact_matches)+('-'*matcher.get_number_matches)
     end
 
-    def play(code) # tested
+    def play(code)
       guess_result = guess(code)
       @used_attempts += 1
       if guess_result == '++++'
-        @is_won = true #'You have won!'
+        @status = 'won'
       elsif @max_attempts > 0 && @used_attempts >= @max_attempts
-        @is_lost = true #'You have lost...'
+        @status = 'lost'
       end
-      return guess_result
+      guess_result
     end
 
-    def won? # tested
-      @is_won
+    def won?
+      (@status == 'won')
     end
 
-    def lost? # tested
-      @is_lost
+    def lost?
+      (@status == 'lost')
     end
 
-    def hint # tested
-      if !hint_is_used
+    def hint
+      if !hint_used?
         @hint = rand(0..3)
       end
       (0..3).collect{|i| (i==@hint ? @secret_code[i] : '*')}.join
     end
 
-    def hint_is_used
+    def hint_used?
       !@hint.nil?
     end
 
-    def restart(max_attempts = 0) # tested
+    def restart(max_attempts = 0)
       generate_code
       reset(max_attempts)
     end
@@ -65,6 +70,7 @@ module Codebreaker
         @hint = nil
         @is_won = false
         @is_lost = false
+        @status = '...'
         @used_attempts = 0
         @max_attempts = max_attempts
       end
@@ -74,14 +80,13 @@ module Codebreaker
         unless File.exist?(data_file)
           File.open(data_file, 'w') {|f| f.close}
         end
-        return data_file
+        data_file
       end
 
       def get_data_dir
-        #data_dir = Gem::Specification.find_by_name(self.class.to_s.split('::').first.downcase).gem_dir + '/data'
-        data_dir = File.expand_path('../../../data', __FILE__)
+        data_dir = File.expand_path('../../../'+(@test_environment ? 'spec/' : '') + 'data', __FILE__)
         Dir.mkdir(data_dir) unless File.directory?(data_dir)
-        return data_dir
+        data_dir
       end
 
       def game_md5_key(name)
@@ -97,15 +102,24 @@ module Codebreaker
       end
 
       def get_saved_results
-        results = YAML::load_file(get_data_file)
-        results = {} if !results
-        return results
+        begin
+          results = YAML::load_file(get_data_file)
+          results = {} if !results
+          results
+        rescue
+          false
+        end
       end
 
       def save_results(results)
-        File.open(get_data_file, 'w') do |f|
-          f.write(results.to_yaml)
-          f.close
+        begin
+          File.open(get_data_file, 'w') do |f|
+            f.write(results.to_yaml)
+            f.close
+          end
+          true
+        rescue
+          false
         end
       end
 
