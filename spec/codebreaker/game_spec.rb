@@ -79,7 +79,7 @@ module Codebreaker
       it 'wins' do
         secret_code = game.instance_variable_get(:@secret_code)
         game.play(secret_code)
-        expect(game.won?).to eq(true)
+        expect(game).to be_won
       end
 
       it 'loses' do
@@ -87,7 +87,7 @@ module Codebreaker
           game.play('7777')
           break if (game.lost?)
         end
-        expect(game.lost?).to eq(true)
+        expect(game).to be_lost
       end
     end
 
