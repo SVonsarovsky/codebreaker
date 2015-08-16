@@ -1,4 +1,4 @@
-Copyright (c) 2014 SVonsarovsky
+Copyright (c) 2015 Sergey Vonsarovsky
 
 MIT License
 
