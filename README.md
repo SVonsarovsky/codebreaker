@@ -1,6 +1,6 @@
 # Codebreaker
 
-TODO: Write a gem description
+[![Build Status](https://travis-ci.org/SVonsarovsky/codebreaker.svg?branch=master)](https://travis-ci.org/SVonsarovsky/codebreaker)
 
 ## Installation
 
@@ -20,11 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Example of usage in bin/codebreaker
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/codebreaker/fork )
+1. Fork it ( https://github.com/SVonsarovsky/codebreaker/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

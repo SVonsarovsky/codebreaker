@@ -1,7 +1,9 @@
 require 'spec_helper'
+
 module Codebreaker
   describe Matcher do
     subject(:test_code) { '1234' }
+
     context '#get_exact_matches' do
       %w(5555 1555 1255 1235 1234).each_with_index do |v, k|
         it "gets #{k} exact match(es)" do
@@ -9,6 +11,7 @@ module Codebreaker
         end
       end
     end
+
     context '#get_number_matches' do
       %w(5555 5551 5512 1123 4123).each_with_index do |v, k|
         it "gets #{k} number match(es)" do
